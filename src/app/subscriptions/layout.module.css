@@ -1,0 +1,22 @@
+.wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.nav {
+  display: flex;
+  gap: 24px;
+  padding: 16px 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.link {
+  color: #64748b;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.link:hover {
+  color: #4f46e5;
+}
