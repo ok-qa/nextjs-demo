@@ -67,3 +67,28 @@ export async function createSubscriptionRecord(data: {
     data,
   });
 }
+
+export async function updateSubscriptionRecord(
+  id: string,
+  data: {
+    name: string;
+    price: number;
+    billingCycle: BillingCycle;
+    nextBillingDate: Date;
+  },
+) {
+  return prisma.subscription.update({
+    where: {
+      id,
+    },
+    data,
+  });
+}
+
+export async function deleteSubscriptionRecord(id: string) {
+  return prisma.subscription.delete({
+    where: {
+      id,
+    },
+  });
+}

@@ -1,5 +1,8 @@
 import { getSubscriptionById } from "@/lib/subscriptions";
 import { notFound } from "next/navigation";
+import EditSubscriptionForm from "../components/EditSubscriptionForm";
+
+import styles from "../subscriptions.module.css";
 
 type SubscriptionPageProps = {
   params: Promise<{
@@ -18,14 +21,10 @@ export default async function SubscriptionPage({
   }
 
   return (
-    <main>
-      <h1>{subscription.name}</h1>
+    <main className={styles.page}>
+      <h1 className={styles.title}>{subscription.name}</h1>
 
-      <p>Price: ${subscription.price}</p>
-
-      <p>Billing cycle: {subscription.billingCycle}</p>
-
-      <p>Next billing date: {subscription.nextBillingDate}</p>
+      <EditSubscriptionForm subscription={subscription} />
     </main>
   );
 }
