@@ -1,9 +1,12 @@
-import { getSubscriptions } from "@/lib/subscriptions";
+import { Suspense } from "react";
 import SubscriptionSearch from "./components/SubscriptionSearch";
-import SubscriptionCard from "./components/SubscriptionCard";
 import { SubscriptionForm } from "./components/SubscriptionForm";
+import SubscriptionList from "./components/SubscriptionList";
+import SubscriptionListFallback from "./components/SubscriptionListFallback";
 
 import styles from "./subscriptions.module.css";
+import SubscriptionSummaryFallback from "./components/SubscriptionSummaryFallback";
+import SubscriptionSummary from "./components/SubscriptionSummary";
 
 type SubscriptionsPageProps = {
   searchParams: Promise<{
@@ -12,14 +15,9 @@ type SubscriptionsPageProps = {
   }>;
 };
 
-export default async function SubscriptionsPage({
+export default function SubscriptionsPage({
   searchParams,
 }: SubscriptionsPageProps) {
-  const { status, search } = await searchParams;
-  const subscriptions = await getSubscriptions({
-    status: status === "active" || status === "expiring" ? status : "all",
-    search,
-  });
   return (
     <main className={styles.page}>
       <h1 className={styles.title}>Subscriptions</h1>
@@ -28,11 +26,13 @@ export default async function SubscriptionsPage({
 
       <SubscriptionSearch />
 
-      <div className={styles.list}>
-        {subscriptions.map((subscription) => (
-          <SubscriptionCard key={subscription.id} subscription={subscription} />
-        ))}
-      </div>
+      <Suspense fallback={<SubscriptionSummaryFallback />}>
+        <SubscriptionSummary />
+      </Suspense>
+
+      <Suspense fallback={<SubscriptionListFallback />}>
+        <SubscriptionList searchParams={searchParams} />
+      </Suspense>
     </main>
   );
 }

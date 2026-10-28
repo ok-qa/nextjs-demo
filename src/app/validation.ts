@@ -15,3 +15,5 @@ export const createSubscriptionSchema = z.object({
     error: "Next billing date must be a valid date.",
   }),
 });
+
+export const updateSubscriptionSchema = createSubscriptionSchema.partial();

@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { createSubscriptionSchema } from "../validation";
@@ -50,14 +50,24 @@ export async function createSubscription(
     };
   }
 
-  await createSubscriptionRecord(result.data);
+  try {
+    await createSubscriptionRecord(result.data);
 
-  revalidatePath("/subscriptions");
+    updateTag("subscriptions");
+    revalidatePath("/subscriptions");
 
-  return {
-    error: "",
-    success: true,
-  };
+    return {
+      error: "",
+      success: true,
+    };
+  } catch (error) {
+    console.error("Failed to create subscription:", error);
+
+    return {
+      error: "Unable to create subscription. Please try again.",
+      success: false,
+    };
+  }
 }
 
 export async function updateSubscription(
@@ -105,6 +115,7 @@ export async function updateSubscription(
     };
   }
 
+  updateTag("subscriptions");
   revalidatePath("/subscriptions");
   revalidatePath(`/subscriptions/${id}`);
 
@@ -123,6 +134,7 @@ export async function deleteSubscription(id: string) {
     };
   }
 
+  updateTag("subscriptions");
   revalidatePath("/subscriptions");
   redirect("/subscriptions");
 }
