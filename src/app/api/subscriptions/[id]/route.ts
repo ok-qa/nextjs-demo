@@ -1,10 +1,15 @@
 import { NextResponse } from "next/server";
 import { revalidateTag } from "next/cache";
+
+import { Prisma } from "@/generated/prisma/client";
+import { getCurrentSession } from "@/lib/auth-session";
+
 import {
   deleteSubscriptionRecord,
   getSubscriptionById,
   updateSubscriptionRecord,
 } from "@/lib/subscriptions";
+
 import { updateSubscriptionSchema } from "@/app/validation";
 
 type RouteContext = {
@@ -13,9 +18,15 @@ type RouteContext = {
 
 export async function GET(_request: Request, { params }: RouteContext) {
   try {
+    const session = await getCurrentSession();
+
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const { id } = await params;
 
-    const subscription = await getSubscriptionById(id);
+    const subscription = await getSubscriptionById(id, session.user.id);
 
     if (!subscription) {
       return NextResponse.json(
@@ -37,9 +48,16 @@ export async function GET(_request: Request, { params }: RouteContext) {
 
 export async function PATCH(request: Request, { params }: RouteContext) {
   try {
+    const session = await getCurrentSession();
+
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const userId = session.user.id;
     const { id } = await params;
 
-    const existing = await getSubscriptionById(id);
+    const existing = await getSubscriptionById(id, userId);
 
     if (!existing) {
       return NextResponse.json(
@@ -79,7 +97,7 @@ export async function PATCH(request: Request, { params }: RouteContext) {
       ),
     };
 
-    const updated = await updateSubscriptionRecord(id, updatedData);
+    const updated = await updateSubscriptionRecord(id, userId, updatedData);
 
     revalidateTag("subscriptions", "max");
 
@@ -103,27 +121,36 @@ export async function PATCH(request: Request, { params }: RouteContext) {
 
 export async function DELETE(_request: Request, { params }: RouteContext) {
   try {
-    const { id } = await params;
+    const session = await getCurrentSession();
 
-    const existing = await getSubscriptionById(id);
-
-    if (!existing) {
-      return NextResponse.json(
-        { error: "Subscription not found." },
-        { status: 404 },
-      );
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    await deleteSubscriptionRecord(id);
+    const { id } = await params;
+
+    await deleteSubscriptionRecord(id, session.user.id);
 
     revalidateTag("subscriptions", "max");
 
-    return new Response(null, { status: 204 });
+    return NextResponse.json(
+      { message: "Subscription deleted successfully" },
+      { status: 200 },
+    );
   } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2025"
+    ) {
+      return NextResponse.json(
+        { error: "Subscription not found" },
+        { status: 404 },
+      );
+    }
     console.error("[DELETE /api/subscriptions/[id]]", error);
 
     return NextResponse.json(
-      { error: "Unable to delete subscription." },
+      { error: "Failed to delete subscription" },
       { status: 500 },
     );
   }

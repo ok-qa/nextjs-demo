@@ -1,4 +1,5 @@
 import { getSubscriptions } from "@/lib/subscriptions";
+import { requireUser } from "@/lib/auth-session";
 import SubscriptionCard from "./SubscriptionCard";
 
 import styles from "../subscriptions.module.css";
@@ -13,11 +14,13 @@ type SubscriptionListProps = {
 export default async function SubscriptionList({
   searchParams,
 }: SubscriptionListProps) {
+  const user = await requireUser();
   const { status, search } = await searchParams;
 
   const subscriptions = await getSubscriptions({
     status: status === "active" || status === "expiring" ? status : "all",
     search,
+    userId: user.id,
   });
 
   return (

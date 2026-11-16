@@ -3,7 +3,9 @@
 import { revalidatePath, updateTag } from "next/cache";
 import { redirect } from "next/navigation";
 
-import { createSubscriptionSchema } from "../validation";
+import { createSubscriptionSchema } from "../../validation";
+import { requireUser } from "@/lib/auth-session";
+
 import {
   createSubscriptionRecord,
   updateSubscriptionRecord,
@@ -19,6 +21,8 @@ export async function createSubscription(
   _previousState: FormState,
   formData: FormData,
 ): Promise<FormState> {
+  const user = await requireUser();
+
   const name = formData.get("name");
   const price = formData.get("price");
   const billingCycle = formData.get("billingCycle");
@@ -51,7 +55,7 @@ export async function createSubscription(
   }
 
   try {
-    await createSubscriptionRecord(result.data);
+    await createSubscriptionRecord(result.data, user.id);
 
     updateTag("subscriptions");
     revalidatePath("/subscriptions");
@@ -75,6 +79,8 @@ export async function updateSubscription(
   _previousState: FormState,
   formData: FormData,
 ): Promise<FormState> {
+  const user = await requireUser();
+
   const name = formData.get("name");
   const price = formData.get("price");
   const billingCycle = formData.get("billingCycle");
@@ -107,8 +113,9 @@ export async function updateSubscription(
   }
 
   try {
-    await updateSubscriptionRecord(id, result.data);
-  } catch {
+    await updateSubscriptionRecord(id, user.id, result.data);
+  } catch (error) {
+    console.error("Failed to update subscription:", error);
     return {
       error: "Unable to update subscription. It may no longer exist.",
       success: false,
@@ -126,9 +133,12 @@ export async function updateSubscription(
 }
 
 export async function deleteSubscription(id: string) {
+  const user = await requireUser();
+
   try {
-    await deleteSubscriptionRecord(id);
-  } catch {
+    await deleteSubscriptionRecord(id, user.id);
+  } catch (error) {
+    console.error("Failed to delete subscription:", error);
     return {
       error: "Unable to delete subscription. It may no longer exist.",
     };

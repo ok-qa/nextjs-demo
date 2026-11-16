@@ -5,15 +5,22 @@ import {
 } from "@/lib/subscriptions";
 import { revalidateTag } from "next/cache";
 import { createSubscriptionSchema } from "@/app/validation";
+import { getCurrentSession } from "@/lib/auth-session";
 
 export async function GET(request: Request) {
   try {
+    const session = await getCurrentSession();
+
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const userId = session.user.id;
+
     const { searchParams } = new URL(request.url);
 
     const status = searchParams.get("status");
     const search = searchParams.get("search") ?? "";
-
-    console.log("[API] Received status:", status);
 
     if (status !== null && !["all", "active", "expiring"].includes(status)) {
       return NextResponse.json(
@@ -25,6 +32,7 @@ export async function GET(request: Request) {
     const subscriptions = await getSubscriptions({
       status: status === "active" || status === "expiring" ? status : "all",
       search,
+      userId,
     });
 
     return NextResponse.json(subscriptions);
@@ -40,6 +48,14 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const session = await getCurrentSession();
+
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const userId = session.user.id;
+
     const body = await request.json();
 
     const result = createSubscriptionSchema.safeParse({
@@ -61,7 +77,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const subscription = await createSubscriptionRecord(result.data);
+    const subscription = await createSubscriptionRecord(result.data, userId);
 
     revalidateTag("subscriptions", "max");
 
