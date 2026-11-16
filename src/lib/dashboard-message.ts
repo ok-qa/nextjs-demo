@@ -7,7 +7,5 @@ export async function getDashboardMessage() {
 
   const generatedAt = new Date().toISOString();
 
-  console.log("[SERVER] Generated cached value:", generatedAt);
-
   return `Welcome! This value was generated at ${generatedAt}`;
 }

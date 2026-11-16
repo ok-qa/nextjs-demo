@@ -3,10 +3,10 @@ import SubscriptionSearch from "./components/SubscriptionSearch";
 import { SubscriptionForm } from "./components/SubscriptionForm";
 import SubscriptionList from "./components/SubscriptionList";
 import SubscriptionListFallback from "./components/SubscriptionListFallback";
-
-import styles from "./subscriptions.module.css";
 import SubscriptionSummaryFallback from "./components/SubscriptionSummaryFallback";
 import SubscriptionSummary from "./components/SubscriptionSummary";
+import { LogoutButton } from "@/components/auth/LogoutButton";
+import styles from "./subscriptions.module.css";
 
 type SubscriptionsPageProps = {
   searchParams: Promise<{
@@ -21,6 +21,8 @@ export default function SubscriptionsPage({
   return (
     <main className={styles.page}>
       <h1 className={styles.title}>Subscriptions</h1>
+
+      <LogoutButton />
 
       <SubscriptionForm />
 

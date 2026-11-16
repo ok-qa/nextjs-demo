@@ -1,8 +1,10 @@
 import { getSubscriptionSummary } from "@/lib/subscriptions";
 import styles from "../SubscriptionSummary.module.css";
+import { requireUser } from "@/lib/auth-session";
 
 export default async function SubscriptionSummary() {
-  const summary = await getSubscriptionSummary();
+  const user = await requireUser();
+  const summary = await getSubscriptionSummary(user.id);
 
   const monthlyCost = new Intl.NumberFormat("en-US", {
     style: "currency",

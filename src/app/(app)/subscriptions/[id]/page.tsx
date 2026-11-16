@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import EditSubscriptionForm from "../components/EditSubscriptionForm";
 
 import styles from "../subscriptions.module.css";
+import { requireUser } from "@/lib/auth-session";
 
 type SubscriptionPageProps = {
   params: Promise<{
@@ -13,9 +14,10 @@ type SubscriptionPageProps = {
 export default async function SubscriptionPage({
   params,
 }: SubscriptionPageProps) {
+  const user = await requireUser();
   const { id } = await params;
 
-  const subscription = await getSubscriptionById(id);
+  const subscription = await getSubscriptionById(id, user.id);
   if (!subscription) {
     notFound();
   }

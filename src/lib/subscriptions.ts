@@ -6,14 +6,22 @@ import { prisma } from "./prisma";
 
 type SubscriptionStatus = "all" | "active" | "expiring";
 type SubscriptionFilters = {
+  userId: string;
   status?: SubscriptionStatus;
   search?: string;
 };
+type SubscriptionData = {
+  name: string;
+  price: number;
+  billingCycle: BillingCycle;
+  nextBillingDate: Date;
+};
 
 export async function getSubscriptions({
+  userId,
   status = "all",
   search = "",
-}: SubscriptionFilters = {}) {
+}: SubscriptionFilters) {
   "use cache";
 
   // Cache results for minutes.
@@ -29,18 +37,12 @@ export async function getSubscriptions({
   //   }, 10000);
   // });
 
-  console.log("[getSubscriptions] Query started", {
-    status,
-    search,
-    time: new Date().toISOString(),
-  });
-
   const now = new Date();
 
   const thirtyDaysFromNow = new Date();
   thirtyDaysFromNow.setDate(now.getDate() + 30);
 
-  const where: Prisma.SubscriptionWhereInput = {};
+  const where: Prisma.SubscriptionWhereInput = { userId };
 
   if (search) {
     where.name = {
@@ -69,59 +71,59 @@ export async function getSubscriptions({
   return subscriptions.map(mapSubscription);
 }
 
-export async function getSubscriptionById(id: string) {
+export async function getSubscriptionById(id: string, userId: string) {
   const subscription = await prisma.subscription.findUnique({
     where: {
       id,
+      userId,
     },
   });
 
   return subscription ? mapSubscription(subscription) : null;
 }
 
-export async function createSubscriptionRecord(data: {
-  name: string;
-  price: number;
-  billingCycle: BillingCycle;
-  nextBillingDate: Date;
-}) {
+export async function createSubscriptionRecord(
+  data: SubscriptionData,
+  userId: string,
+) {
   return prisma.subscription.create({
-    data,
+    data: { ...data, userId },
   });
 }
 
 export async function updateSubscriptionRecord(
   id: string,
-  data: {
-    name: string;
-    price: number;
-    billingCycle: BillingCycle;
-    nextBillingDate: Date;
-  },
+  userId: string,
+  data: SubscriptionData,
 ) {
   return prisma.subscription.update({
     where: {
       id,
+      userId,
     },
     data,
   });
 }
 
-export async function deleteSubscriptionRecord(id: string) {
+export async function deleteSubscriptionRecord(id: string, userId: string) {
   return prisma.subscription.delete({
     where: {
       id,
+      userId,
     },
   });
 }
 
-export async function getSubscriptionSummary() {
+export async function getSubscriptionSummary(userId: string) {
   "use cache";
 
   cacheLife("minutes");
   cacheTag("subscriptions");
 
   const subscriptions = await prisma.subscription.findMany({
+    where: {
+      userId,
+    },
     select: {
       price: true,
       billingCycle: true,
