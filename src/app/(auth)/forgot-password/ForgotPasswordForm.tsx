@@ -1,7 +1,8 @@
 "use client";
 
-import { SubmitEvent, useState } from "react";
 import Link from "next/link";
+import { SubmitEvent, useState } from "react";
+
 import { authClient } from "@/lib/auth-client";
 
 import styles from "../auth.module.css";

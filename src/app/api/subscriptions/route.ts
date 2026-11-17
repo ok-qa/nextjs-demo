@@ -1,11 +1,12 @@
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
+
+import { createSubscriptionSchema } from "@/app/validation";
+import { getCurrentSession } from "@/lib/auth-session";
 import {
   createSubscriptionRecord,
   getSubscriptions,
 } from "@/lib/subscriptions";
-import { revalidateTag } from "next/cache";
-import { createSubscriptionSchema } from "@/app/validation";
-import { getCurrentSession } from "@/lib/auth-session";
 
 export async function GET(request: Request) {
   try {

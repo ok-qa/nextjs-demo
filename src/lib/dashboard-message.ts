@@ -1,4 +1,5 @@
 import "server-only";
+
 import { cacheLife } from "next/cache";
 
 export async function getDashboardMessage() {

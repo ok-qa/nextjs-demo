@@ -1,7 +1,8 @@
 import "dotenv/config";
 
-import { PrismaClient, BillingCycle } from "@/generated/prisma/client";
 import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
+
+import { BillingCycle,PrismaClient } from "@/generated/prisma/client";
 
 const connectionString = process.env.DATABASE_URL;
 
