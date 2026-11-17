@@ -1,18 +1,3 @@
-/* eslint-disable @next/next/no-html-link-for-pages */
-// export default function Header() {
-//   return (
-//     <header>
-//       <h1>SubTracker Demo</h1>
-
-//       <nav>
-//         <a href="/">Dashboard</a>
-//         {" | "}
-//         <a href="/subscriptions">Subscriptions</a>
-//       </nav>
-//     </header>
-//   );
-// }
-
 import Link from "next/link";
 
 import styles from "./Header.module.css";
