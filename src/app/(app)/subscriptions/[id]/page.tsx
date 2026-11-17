@@ -1,9 +1,10 @@
-import { getSubscriptionById } from "@/lib/subscriptions";
 import { notFound } from "next/navigation";
-import EditSubscriptionForm from "../components/EditSubscriptionForm";
 
-import styles from "../subscriptions.module.css";
 import { requireUser } from "@/lib/auth-session";
+import { getSubscriptionById } from "@/lib/subscriptions";
+
+import EditSubscriptionForm from "../components/EditSubscriptionForm";
+import styles from "../subscriptions.module.css";
 
 type SubscriptionPageProps = {
   params: Promise<{

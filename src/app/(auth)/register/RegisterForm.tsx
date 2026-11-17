@@ -1,8 +1,10 @@
 "use client";
 
-import { useState, type SubmitEvent } from "react";
 import { useRouter } from "next/navigation";
+import { type SubmitEvent,useState } from "react";
+
 import { authClient } from "@/lib/auth-client";
+
 import styles from "../auth.module.css";
 
 export default function RegisterPage() {

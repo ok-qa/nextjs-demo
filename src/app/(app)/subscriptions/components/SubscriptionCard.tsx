@@ -1,9 +1,9 @@
 import Link from "next/link";
 
 import type { Subscription } from "@/types/subscription";
-import DeleteSubscriptionButton from "./DeleteSubscriptionButton";
 
 import styles from "../subscriptions.module.css";
+import DeleteSubscriptionButton from "./DeleteSubscriptionButton";
 
 type SubscriptionCardProps = {
   subscription: Subscription;

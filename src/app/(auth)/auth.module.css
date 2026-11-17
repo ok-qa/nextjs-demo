@@ -156,3 +156,19 @@
     font-size: 24px;
   }
 }
+
+.forgotPassword {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -0.5rem;
+  font-size: 0.875rem;
+}
+
+.forgotPassword a {
+  color: #8c7ca8;
+  text-decoration: none;
+}
+
+.forgotPassword a:hover {
+  text-decoration: underline;
+}

@@ -1,11 +1,13 @@
 import { Suspense } from "react";
-import SubscriptionSearch from "./components/SubscriptionSearch";
+
+import { LogoutButton } from "@/components/auth/LogoutButton";
+
 import { SubscriptionForm } from "./components/SubscriptionForm";
 import SubscriptionList from "./components/SubscriptionList";
 import SubscriptionListFallback from "./components/SubscriptionListFallback";
-import SubscriptionSummaryFallback from "./components/SubscriptionSummaryFallback";
+import SubscriptionSearch from "./components/SubscriptionSearch";
 import SubscriptionSummary from "./components/SubscriptionSummary";
-import { LogoutButton } from "@/components/auth/LogoutButton";
+import SubscriptionSummaryFallback from "./components/SubscriptionSummaryFallback";
 import styles from "./subscriptions.module.css";
 
 type SubscriptionsPageProps = {

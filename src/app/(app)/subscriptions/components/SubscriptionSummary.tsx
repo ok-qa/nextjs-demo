@@ -1,6 +1,7 @@
-import { getSubscriptionSummary } from "@/lib/subscriptions";
-import styles from "../SubscriptionSummary.module.css";
 import { requireUser } from "@/lib/auth-session";
+import { getSubscriptionSummary } from "@/lib/subscriptions";
+
+import styles from "../SubscriptionSummary.module.css";
 
 export default async function SubscriptionSummary() {
   const user = await requireUser();

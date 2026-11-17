@@ -1,8 +1,8 @@
-import { getSubscriptions } from "@/lib/subscriptions";
 import { requireUser } from "@/lib/auth-session";
-import SubscriptionCard from "./SubscriptionCard";
+import { getSubscriptions } from "@/lib/subscriptions";
 
 import styles from "../subscriptions.module.css";
+import SubscriptionCard from "./SubscriptionCard";
 
 type SubscriptionListProps = {
   searchParams: Promise<{

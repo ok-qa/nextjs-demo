@@ -1,8 +1,11 @@
 "use client";
 
-import { useState, type SubmitEvent } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import Link from "next/link";
+import { useRouter,useSearchParams } from "next/navigation";
+import { type SubmitEvent,useState } from "react";
+
 import { authClient } from "@/lib/auth-client";
+
 import styles from "../auth.module.css";
 
 export default function LoginForm() {
@@ -95,6 +98,10 @@ export default function LoginForm() {
               placeholder="Enter your password"
               required
             />
+          </div>
+
+          <div className={styles.forgotPassword}>
+            <Link href="/forgot-password">Forgot password?</Link>
           </div>
 
           {error && (

@@ -1,6 +1,7 @@
-import { betterAuth } from "better-auth";
 import { prismaAdapter } from "@better-auth/prisma-adapter";
+import { betterAuth } from "better-auth";
 
+import { sendPasswordResetEmail } from "@/lib/email";
 import { prisma } from "@/lib/prisma";
 
 export const auth = betterAuth({
@@ -12,6 +13,16 @@ export const auth = betterAuth({
     enabled: true,
     minPasswordLength: 8,
     maxPasswordLength: 128,
+
+    sendResetPassword: async ({ user, url }) => {
+      void sendPasswordResetEmail(user.email, url).catch((error) => {
+        console.error("Password reset email delivery failed:", error);
+      });
+    },
+
+    resetPasswordTokenExpiresIn: 60 * 60,
+
+    revokeSessionsOnPasswordReset: true,
   },
 
   session: {

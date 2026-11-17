@@ -2,8 +2,9 @@
 
 import { useActionState } from "react";
 
-import { updateSubscription } from "../actions";
 import type { Subscription } from "@/types/subscription";
+
+import { updateSubscription } from "../actions";
 import styles from "../subscriptions.module.css";
 
 type EditSubscriptionFormProps = {

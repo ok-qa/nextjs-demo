@@ -1,16 +1,14 @@
-import { NextResponse } from "next/server";
 import { revalidateTag } from "next/cache";
+import { NextResponse } from "next/server";
 
+import { updateSubscriptionSchema } from "@/app/validation";
 import { Prisma } from "@/generated/prisma/client";
 import { getCurrentSession } from "@/lib/auth-session";
-
 import {
   deleteSubscriptionRecord,
   getSubscriptionById,
   updateSubscriptionRecord,
 } from "@/lib/subscriptions";
-
-import { updateSubscriptionSchema } from "@/app/validation";
 
 type RouteContext = {
   params: Promise<{ id: string }>;
