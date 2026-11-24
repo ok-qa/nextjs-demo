@@ -1,0 +1,262 @@
+.page {
+  height: 100vh;
+  padding: 32px;
+  background: #f5f2ed;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.header h1 {
+  margin: 0;
+  color: #26344b;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.header p {
+  margin: 8px 0 0;
+  color: #77718a;
+  font-size: 14px;
+}
+
+.card {
+  max-width: 720px;
+  padding: 32px;
+  background: #ffffff;
+  border: 1px solid #e8e2ef;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgb(38 52 75 / 5%);
+}
+
+.securityCard {
+  max-width: 720px;
+  padding: 32px;
+  background: #ffffff;
+  border: 1px solid #e8e2ef;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgb(38 52 75 / 5%);
+  margin-top: 20px;
+}
+
+.avatar {
+  display: flex;
+  width: 72px;
+  height: 72px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #e8e2ef;
+  color: #55466f;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.userInfo {
+  margin-top: 16px;
+}
+
+.userInfo h2 {
+  margin: 0;
+  color: #26344b;
+  font-size: 20px;
+}
+
+.userInfo p {
+  margin: 5px 0 0;
+  color: #8c7ca8;
+  font-size: 13px;
+}
+
+.details {
+  display: grid;
+  gap: 24px;
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid #eeeaf2;
+}
+
+.field span {
+  display: block;
+  margin-bottom: 7px;
+  color: #8c7ca8;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.field p {
+  margin: 0;
+  color: #26344b;
+  font-size: 15px;
+}
+
+.field small {
+  display: block;
+  margin-top: 5px;
+  color: #898398;
+  font-size: 12px;
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 20px 16px;
+  }
+
+  .card,
+  .securityCard {
+    padding: 22px;
+  }
+}
+
+.securityHeader {
+  margin-bottom: 20px;
+}
+
+.securityHeader h2 {
+  margin: 0;
+  color: #26344b;
+  font-size: 18px;
+}
+
+.securityHeader p {
+  margin: 6px 0 0;
+  color: #77718a;
+  font-size: 13px;
+}
+
+.securityItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  /* padding-top: 20px; */
+  /* border-top: 1px solid #eeeaf2; */
+}
+
+.securityItem h3 {
+  margin: 0;
+  color: #26344b;
+  font-size: 15px;
+}
+
+.securityItem p {
+  margin: 6px 0 0;
+  color: #77718a;
+  font-size: 13px;
+}
+
+.actionLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 10px 16px;
+  border: 1px solid #d8d0e2;
+  border-radius: 8px;
+  color: #55466f;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.actionLink:hover {
+  background: #f5f2ed;
+}
+
+.actionLink:focus-visible {
+  outline: 2px solid #8c7ca8;
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .securityItem {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+.skeletonName,
+.skeletonText {
+  background: linear-gradient(90deg, #e8e5ed 25%, #f4f2f7 50%, #e8e5ed 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+}
+
+.skeletonName {
+  width: 160px;
+  height: 24px;
+  margin-bottom: 8px;
+}
+
+.skeletonText {
+  width: 100%;
+  height: 18px;
+  margin-top: 8px;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+.account {
+  max-width: 720px;
+  padding: 32px;
+  background: #ffffff;
+  border: 1px solid #e8e2ef;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgb(38 52 75 / 5%);
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-top: 24px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-top: 1px solid #e8e2ef;
+}
+
+.account h3 {
+  margin: 0 0 6px;
+  color: #26344b;
+  font-size: 16px;
+}
+
+.account p {
+  margin: 0;
+  color: #77718a;
+  font-size: 13px;
+}
+
+.logoutButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border: 1px solid #e5b8b5;
+  border-radius: 8px;
+  background: #fff;
+  color: #b42318;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.logoutButton:hover:not(:disabled) {
+  background: #fff1f0;
+}
+
+.logoutButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

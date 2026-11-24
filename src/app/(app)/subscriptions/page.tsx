@@ -24,8 +24,6 @@ export default function SubscriptionsPage({
     <main className={styles.page}>
       <h1 className={styles.title}>Subscriptions</h1>
 
-      <LogoutButton />
-
       <SubscriptionForm />
 
       <SubscriptionSearch />

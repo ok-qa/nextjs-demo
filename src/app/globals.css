@@ -50,3 +50,17 @@ select {
 a {
   color: inherit;
 }
+
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+button,
+a {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+input:not(:focus) {
+  caret-color: transparent;
+}
